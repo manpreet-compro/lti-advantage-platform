@@ -1,0 +1,12 @@
+[
+    {
+        "title":"Git Basics",
+        "desc":"Learn the basiscs of Git - A distributed version control system.",
+        "type":"CourseSection",
+        "resLink":{
+            "href":"/init-login",
+            "title": "Launch Activity",
+            "toolId":"Tool101"
+        }
+    }
+]
