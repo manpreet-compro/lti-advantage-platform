@@ -1,4 +1,5 @@
 const toolRegistry = require('../data/tool-registration.json');
+const platformData = require('../data/platform-data.json');
 
 function handleOIDCRequest(params) {
 
@@ -8,12 +9,12 @@ function handleOIDCRequest(params) {
     validateAuthRequest(params);
 
     // Construct launch request with id_token
-    constructAuthResponse();
+    return constructAuthResponse(params);
 }
 
 function validateAuthRequest(params) {
 
-    let {
+    const {
         scope,
         response_type,
         client_id,
@@ -31,35 +32,35 @@ function validateAuthRequest(params) {
     {
 
         if (!scope) {
-            throw new Error('Mandatory parameter missing - "scope"');
+            throw new Error('Bad request - "scope" missing');
         }
 
         if (!response_type) {
-            throw new Error('Mandatory parameter missing - "response_type"');
+            throw new Error('Bad request - "response_type" missing');
         }
 
         if (!client_id) {
-            throw new Error('Mandatory parameter missing - "client_id"');
+            throw new Error('Bad request - "client_id" missing');
         }
 
         if (!redirect_uri) {
-            throw new Error('Mandatory parameter missing - "redirect_uri"');
+            throw new Error('Bad request - "redirect_uri" missing');
         }
 
         if (!login_hint) {
-            throw new Error('Mandatory parameter missing - "login_hint"');
+            throw new Error('Bad request - "login_hint" missing');
         }
 
         if (!response_mode) {
-            throw new Error('Mandatory parameter missing - "response_mode"');
+            throw new Error('Bad request - "response_mode" missing');
         }
 
         if (!nonce) {
-            throw new Error('Mandatory parameter missing - "nonce"');
+            throw new Error('Bad request - "nonce" missing');
         }
 
         if (!prompt) {
-            throw new Error('Mandatory parameter missing - "prompt"');
+            throw new Error('Bad request - "prompt" missing');
         }
     }
 
@@ -109,7 +110,31 @@ function validateAuthRequest(params) {
     }
 }
 
-function constructOIDCResponse() {
+function constructOIDCResponse(params) {
+
+    const {
+        scope,
+        response_type,
+        client_id,
+        redirect_uri,
+        login_hint,
+        lti_message_hint,
+        state,
+        response_mode,
+        nonce,
+        prompt
+    } = params;
+
+    // Construct JWT payload / claims
+    const payload = {
+        iss: 'https://lti-ri.imsglobal.org', //platformData.issuer;
+        aud: "s6BhdRkqt3",
+        iat: 1568383761,
+        exp: 1568384061,
+        sub: "300701fbc2ef172fc6b2",
+        nonce: "425b58c3fd176b250ce1",
+    };    
+
     // Construct id_token
 
     // construct response id_token and state
