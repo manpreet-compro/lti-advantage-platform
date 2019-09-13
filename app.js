@@ -9,8 +9,8 @@ const routes = require('./routes');
 const app = express();
 const port = process.env.PORT || config.port;
 
-// app.set('views', __dirname + '/views')
-// app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views')
+app.set('view engine', 'ejs');
 
 app.use(bodyParser.json({ limit: '1mb', type: '*/*' }));
 
