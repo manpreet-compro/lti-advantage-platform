@@ -1,2 +1,2 @@
-# lti-consumer
-A node js implementation of LTI 1.1 tool consumer
+# Lti 1.3 Platform
+Node js implementation of LTI 1.3 Platform
