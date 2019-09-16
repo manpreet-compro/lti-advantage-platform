@@ -7,6 +7,10 @@ const getTool = (toolId)=>{
     })
 }
 
+const getInitLoginEndPoint = (toolData)=>{
+    return toolData.init_login;
+}
+
 const getPlatformIssuer = ()=>{
     return platFormData.iss;
 }
@@ -42,7 +46,7 @@ function constructLoginParams(toolId){
         return null;
     }
     else{
-        let loginURL = toolData.init_login;
+        let loginURL = getInitLoginEndPoint(toolData);
         let loginParams = {
             "iss": getPlatformIssuer(),
             "client_id ": getClientId(toolData),
