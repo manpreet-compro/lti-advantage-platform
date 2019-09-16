@@ -36,7 +36,7 @@ const getLtiMessageHint = ()=>{
     https://www.imsglobal.org/spec/security/v1p0/#step-1-third-party-initiated-login
     https://www.imsglobal.org/spec/lti/v1p3#additional-login-parameters
 */
-const constructLoginParams = (toolId)=>{
+function constructLoginParams(toolId){
     let toolData = getTool(toolId);
     if(!toolData){
         return null;
