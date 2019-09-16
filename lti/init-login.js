@@ -28,11 +28,11 @@ const getTargetLinkUri = (toolData)=>{
 }
 
 const getLoginHint = ()=>{
-    return 1;
+    return 73470;
 }
 
 const getLtiMessageHint = ()=>{
-    return 1;
+    return 5948;
 }
 
 
