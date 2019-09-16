@@ -20,5 +20,16 @@
         "redirect_uri":[
             "https://lti-ri.imsglobal.org/lti/tools/470/launches"
         ]
+    },
+    {
+        "id":"3",
+        "client_id":"987654321",
+        "deployment_id":"1",
+        "lti_version":"1.3",
+        "tool_link":"https://lti-ri.imsglobal.org/lti/tools/471/launches",
+        "init_login":"https://lti-ri.imsglobal.org/lti/tools/471/login_initiations",
+        "redirect_uri":[
+            "https://lti-ri.imsglobal.org/lti/tools/471/launches"
+        ]
     }
 ]
