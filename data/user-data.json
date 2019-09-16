@@ -1,0 +1,10 @@
+{
+    "name": "Ms Jane Marie Doe",
+    "given_name": "Jane",
+    "family_name": "Doe",
+    "middle_name": "Marie",
+    "email":"jane@platform.example.edu",
+    "role":[
+        "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+    ]
+}

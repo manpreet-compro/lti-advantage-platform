@@ -1,15 +1,19 @@
 const toolRegistry = require('../data/tool-registration.json');
 const platformData = require('../data/platform-data.json');
+const userData = require('../data/user-data.json');
+
+const jwt = require('jsonwebtoken');
+const keys = require('../data/keys.json');
 
 function handleOIDCRequest(params) {
 
     // Verify Signature ? 
 
     // Verify OIDC auth request 
-    validateAuthRequest(params);
+    let tool = validateAuthRequest(params);
 
     // Construct launch request with id_token
-    return constructAuthResponse(params);
+    return constructAuthResponse(params, tool);
 }
 
 function validateAuthRequest(params) {
@@ -100,6 +104,8 @@ function validateAuthRequest(params) {
         if (!tool.redirect_uri.includes(redirect_uri)) {
             throw new Error('Unregistered redirect_uri');
         }
+
+        return tool;
     }
     //
 
@@ -108,9 +114,11 @@ function validateAuthRequest(params) {
     {
         // TODO
     }
+
+    
 }
 
-function constructOIDCResponse(params) {
+function constructAuthResponse(params, tool) {
 
     const {
         scope,
@@ -125,29 +133,68 @@ function constructOIDCResponse(params) {
         prompt
     } = params;
 
-    const time = Date().now;
+    const expirationWindow = 60*10 //10mins
+
+    const time = parseInt(Date.now()/1000); //convert ms to sec
+    const expirationTIme = time + expirationWindow;
 
     // Construct JWT payload / claims
+    // Ref - https://www.imsglobal.org/spec/security/v1p0/#id-token
     const payload = {
-        iss: 'https://lti-ri.imsglobal.org', //platformData.issuer;
-        aud: "s6BhdRkqt3",
+        iss: platformData.iss, //platformData.issuer;
+        aud: tool.client_id,
         iat: time,
-        exp: 1568384061,
-        sub: "300701fbc2ef172fc6b2",
-        nonce: "425b58c3fd176b250ce1",
+        exp: expirationTIme,
+        sub: "1",
+        nonce: nonce,
     };    
 
     payload['https://purl.imsglobal.org/spec/lti/claim/message_type'] = 'LtiResourceLinkRequest';
 
-    payload['https://purl.imsglobal.org/spec/lti/claim/version'] = '1.3.0',
+    payload['https://purl.imsglobal.org/spec/lti/claim/version'] = '1.3.0';
 
-    payload['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'] = ''; //
+    payload['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'] = tool.tool_link; 
+
+    payload['https://purl.imsglobal.org/spec/lti/claim/resource_link'] = { //save resource_link data somehow when user clicked so that it  can be passed here
+        "title": "Git 101",
+        "id": "1"
+    }; 
+
+    if(tool.deployment_id){
+        payload['https://purl.imsglobal.org/spec/lti/claim/deployment_id'] = tool.deployment_id; 
+    }
+    
+    //add user data
+    payload["name"] = userData.name;
+    payload["given_name"] = userData.given_name;
+    payload["family_name"] = userData.family_name;
+    payload["middle_name"] = userData.middle_name;
+    payload["email"] = userData.email;
+    payload["https://purl.imsglobal.org/spec/lti/claim/roles"] = userData.role; 
 
     // Construct id_token
+    // sign with RSA SHA256
+    const id_token = createIDToken(payload);
+    return {
+        id_token: id_token,
+        state: state,
+        action: tool.redirect_uri
+    }
+    
 
     // construct response id_token and state
 }
 
-function createIDToken() {
+function createIDToken(payload) {
+    const kid = keys[0].kid;
+    const privateKey = keys[0].privateKey;
+    
+    const token = jwt.sign(payload, privateKey, { algorithm: 'RS256', keyid:kid});
 
+    return token;
+}
+
+
+module.exports = {
+    handleOIDCRequest: handleOIDCRequest
 }

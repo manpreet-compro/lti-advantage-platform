@@ -1,6 +1,8 @@
 const config = require('../config');
 const courses = require('../data/courses');
+const keys = require('../data/keys');
 const {constructLoginParams} = require('../lti/init-login');
+const {handleOIDCRequest} = require('../lti/auth-oidc');
 
 exports.launchDefault = (req, res)=>{
     res.render('index.ejs',{
@@ -28,7 +30,19 @@ exports.initLogin = (req, res)=>{
 }
 
 exports.authOidc = (req, res)=>{
-    res.json({
-        "status": true
+    let queryParams = Object.assign({}, req.query)
+    let launhData = handleOIDCRequest(queryParams);
+
+    return res.render('tool-redirect.ejs',{
+        title: config.appName,
+        id_token: launhData.id_token,
+        state: launhData.state,
+        action: launhData.action
     })
+}
+
+exports.getPublicKey = (req,res) => {
+    let responseObj = {"keys":[]};
+    responseObj["keys"].push(keys[0].jwk)
+    res.json(responseObj);
 }

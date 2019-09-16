@@ -10,14 +10,12 @@
         <base href="/">
     </head>
     <body>
-        <form id="ltiForm" name="ltiForm" action=<%= action %> method="POST">
-            <% Object.keys(formFields).forEach(function(key) { %>
-                <input name=<%= key %> value=<%= formFields[key] %> type="hidden">
-            <% }); %>
-            <input name="commit" value="Post request" type="hidden">
+        <form id="idTokenLaunch" name="idTokenLaunch" action=<%= action %> method="POST">
+            <input name="id_token" value=<%= id_token %> type="hidden">
+            <input name="state" value=<%= state %> type="hidden">
         </form>
         <script>
-            document.getElementById("ltiForm").submit();
+            document.getElementById("idTokenLaunch").submit();
         </script>
     </body>
 </html>
