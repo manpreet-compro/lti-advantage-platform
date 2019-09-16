@@ -125,15 +125,23 @@ function constructOIDCResponse(params) {
         prompt
     } = params;
 
+    const time = Date().now;
+
     // Construct JWT payload / claims
     const payload = {
         iss: 'https://lti-ri.imsglobal.org', //platformData.issuer;
         aud: "s6BhdRkqt3",
-        iat: 1568383761,
+        iat: time,
         exp: 1568384061,
         sub: "300701fbc2ef172fc6b2",
         nonce: "425b58c3fd176b250ce1",
     };    
+
+    payload['https://purl.imsglobal.org/spec/lti/claim/message_type'] = 'LtiResourceLinkRequest';
+
+    payload['https://purl.imsglobal.org/spec/lti/claim/version'] = '1.3.0',
+
+    payload['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'] = ''; //
 
     // Construct id_token
 
