@@ -9,5 +9,16 @@
         "redirect_uri":[
             "https://lti-node.herokuapp.com/project/submit"
         ]
+    },
+    {
+        "id":"2",
+        "client_id":"iHWWba8g6k36JA",
+        "deployment_id":"1",
+        "lti_version":"1.3",
+        "tool_link":"https://lti-ri.imsglobal.org/lti/tools/470/launches",
+        "init_login":"https://lti-ri.imsglobal.org/lti/tools/470/login_initiations",
+        "redirect_uri":[
+            "https://lti-ri.imsglobal.org/lti/tools/470/launches"
+        ]
     }
 ]

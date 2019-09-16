@@ -145,7 +145,7 @@ function constructAuthResponse(params, tool) {
         aud: tool.client_id,
         iat: time,
         exp: expirationTIme,
-        sub: "1",
+        sub: "2",
         nonce: nonce,
     };    
 
@@ -156,8 +156,9 @@ function constructAuthResponse(params, tool) {
     payload['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'] = tool.tool_link; 
 
     payload['https://purl.imsglobal.org/spec/lti/claim/resource_link'] = { //save resource_link data somehow when user clicked so that it  can be passed here
-        "title": "Git 101",
-        "id": "1"
+        "id": "5949",
+        "title": "Activity01",
+        "description": "Test Activity"
     }; 
 
     if(tool.deployment_id){
@@ -170,7 +171,17 @@ function constructAuthResponse(params, tool) {
     payload["family_name"] = userData.family_name;
     payload["middle_name"] = userData.middle_name;
     payload["email"] = userData.email;
-    payload["https://purl.imsglobal.org/spec/lti/claim/roles"] = userData.role; 
+    payload["https://purl.imsglobal.org/spec/lti/claim/roles"] = userData.roles;
+
+
+    payload["https://purl.imsglobal.org/spec/lti/claim/context"]= {
+        "id": "1697",
+        "label": "Course01",
+        "title": "Course01",
+        "type": [
+          "http://purl.imsglobal.org/vocab/lis/v2/course#CourseSection"
+        ]
+    };
 
     // Construct id_token
     // sign with RSA SHA256
@@ -178,7 +189,7 @@ function constructAuthResponse(params, tool) {
     return {
         id_token: id_token,
         state: state,
-        action: tool.redirect_uri
+        action: redirect_uri
     }
     
 

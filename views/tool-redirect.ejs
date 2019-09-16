@@ -13,6 +13,7 @@
         <form id="idTokenLaunch" name="idTokenLaunch" action=<%= action %> method="POST">
             <input name="id_token" value=<%= id_token %> type="hidden">
             <input name="state" value=<%= state %> type="hidden">
+            <input name="commit" value="Perform Launch" type="hidden">
         </form>
         <script>
             document.getElementById("idTokenLaunch").submit();

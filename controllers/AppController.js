@@ -43,6 +43,6 @@ exports.authOidc = (req, res)=>{
 
 exports.getPublicKey = (req,res) => {
     let responseObj = {"keys":[]};
-    responseObj["keys"].push(keys[0].jwk)
+    responseObj["keys"].push(keys[0].jwk);
     res.json(responseObj);
 }

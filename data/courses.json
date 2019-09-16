@@ -8,5 +8,15 @@
             "displayText": "Launch Activity",
             "toolId":"1"
         }
+    },
+    {
+        "title":"Git 102",
+        "desc":"Learn the basiscs of Git - A distributed version control system.",
+        "type":"CourseSection",
+        "resLink":{
+            "href":"/init-login",
+            "displayText": "Launch Activity 2",
+            "toolId":"2"
+        }
     }
 ]
