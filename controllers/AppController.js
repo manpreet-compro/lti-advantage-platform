@@ -1,6 +1,6 @@
 const config = require('../config');
 const courses = require('../data/courses');
-const ltiInitLogin = require('../lti/init-login');
+const {constructLoginParams} = require('../lti/init-login');
 
 exports.launchDefault = (req, res)=>{
     res.render('index.ejs',{
@@ -15,7 +15,7 @@ exports.initLogin = (req, res)=>{
         return res.status(400).send(`Bad Request, No tool exists with id = ${toolId}`)
     }
 
-    let loginData = ltiInitLogin.constructLoginParams(toolId);
+    let loginData = constructLoginParams(toolId);
     if(!loginData){
         return res.status(400).send(`Bad Request, No tool exists with id = ${toolId}`)
     }
