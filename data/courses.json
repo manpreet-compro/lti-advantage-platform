@@ -5,7 +5,7 @@
         "type":"CourseSection",
         "resLink":{
             "href":"/init-login",
-            "title": "Launch Activity",
+            "displayText": "Launch Activity",
             "toolId":"1"
         }
     }

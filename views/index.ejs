@@ -19,7 +19,7 @@
                     <div class="card-body">
                         <h5 class="card-title"><%= course.title %></h5>
                         <p class="card-text"><%= course.desc %></p>
-                        <a href=<%= course.resLink.href %>?toolId=<%= course.resLink.toolId %> class="btn btn-primary"><%= course.resLink.title %></a>
+                        <a href=<%= course.resLink.href %>?toolId=<%= course.resLink.toolId %> class="btn btn-primary"><%= course.resLink.displayText %></a>
                     </div>
                 </div>
                 <% }); %>
