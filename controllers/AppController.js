@@ -1,12 +1,29 @@
-exports.getStatus = (req, res)=>{
-    res.json({
-        "status": true
+const config = require('../config');
+const courses = require('../data/courses');
+const {constructLoginParams} = require('../lti/init-login');
+
+exports.launchDefault = (req, res)=>{
+    res.render('index.ejs',{
+        title: config.appName,
+        courses: courses
     })
 }
 
 exports.initLogin = (req, res)=>{
-    res.json({
-        "status": true
+    let toolId = req.query.toolId;
+    if(!toolId){
+        return res.status(400).send(`Bad Request, No tool exists with id = ${toolId}`)
+    }
+
+    let loginData = constructLoginParams(toolId);
+    if(!loginData){
+        return res.status(400).send(`Bad Request, No tool exists with id = ${toolId}`)
+    }
+    
+    return res.render('init-login.ejs',{
+        title: config.appName,
+        formFields: loginData.loginParams,
+        action: loginData.loginURL
     })
 }
 
