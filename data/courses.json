@@ -31,9 +31,9 @@
         "resource_links":[
             {
                 "id": "course1002_res2001",
-                "description": "Link to heroku tool developed using LTI library",
+                "description": "Link to IMS Tool 471",
                 "title": "File System in NodeJs",
-                "tool_id": "tool1001"
+                "tool_id": "tool1003"
             }
         ]
     }
