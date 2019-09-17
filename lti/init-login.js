@@ -1,5 +1,6 @@
 const toolRegistration = require('../data/tool-registration');
 const platFormData = require('../data/platform-data');
+const userData = require('../data/user-data');
 
 const getTool = (toolId)=>{
     return toolRegistration.find((tool)=>{
@@ -7,11 +8,11 @@ const getTool = (toolId)=>{
     })
 }
 
-const getInitLoginEndPoint = (toolData)=>{
-    return toolData.init_login;
+const getInitiateLoginUri = (toolData)=>{
+    return toolData.initiate_login_uri;
 }
 
-const getPlatformIssuer = ()=>{
+const getIssuerIdentifier = ()=>{
     return platFormData.iss;
 }
 
@@ -24,15 +25,15 @@ const getLtiDeploymentId = (toolData)=>{
 }
 
 const getTargetLinkUri = (toolData)=>{
-    return toolData.tool_link;
+    return toolData.tool_url;
 }
 
 const getLoginHint = ()=>{
-    return 73470;
+    return userData.id;
 }
 
-const getLtiMessageHint = ()=>{
-    return 5948;
+const getLtiMessageHint = (resLinkId)=>{
+    return resLinkId;
 }
 
 
@@ -40,20 +41,20 @@ const getLtiMessageHint = ()=>{
     https://www.imsglobal.org/spec/security/v1p0/#step-1-third-party-initiated-login
     https://www.imsglobal.org/spec/lti/v1p3#additional-login-parameters
 */
-function constructLoginParams(toolId){
+function constructLoginParams(toolId, resLinkId){
     let toolData = getTool(toolId);
     if(!toolData){
         return null;
     }
     else{
-        let loginURL = getInitLoginEndPoint(toolData);
+        let loginURL = getInitiateLoginUri(toolData);
         let loginParams = {
-            "iss": getPlatformIssuer(),
+            "iss": getIssuerIdentifier(),
             "client_id ": getClientId(toolData),
             "lti_deployment_id": getLtiDeploymentId(toolData),
             "target_link_uri": getTargetLinkUri(toolData),
             "login_hint": getLoginHint(),
-            "lti_message_hint": getLtiMessageHint()
+            "lti_message_hint": getLtiMessageHint(resLinkId)
         }
         
         return {loginURL, loginParams}

@@ -1,32 +1,24 @@
 [
     {
-        "title":"Git 101",
-        "desc":"Learn the basiscs of Git - A distributed version control system.",
-        "type":"CourseSection",
-        "resLink":{
-            "href":"/init-login",
-            "displayText": "Launch Activity",
-            "toolId":"1"
-        }
-    },
-    {
-        "title":"Git 102",
-        "desc":"Learn the basiscs of Git - A distributed version control system.",
-        "type":"CourseSection",
-        "resLink":{
-            "href":"/init-login",
-            "displayText": "Launch Activity 2",
-            "toolId":"2"
-        }
-    },
-    {
-        "title":"Git 103",
-        "desc":"Learn the basiscs of Git - A distributed version control system.",
-        "type":"CourseSection",
-        "resLink":{
-            "href":"/init-login",
-            "displayText": "Launch Activity 3",
-            "toolId":"3"
-        }
+        "id": "course1001",
+        "label": "GIT101",
+        "title": "Basics of Git as version control",
+        "type": [
+            "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering"
+        ],
+        "resource_links":[
+            {
+                "id": "course1001_res1001",
+                "description": "Link to heroku tool developed using LTI library",
+                "title": "Introduction to GIT",
+                "tool_id": "tool1001"
+            },
+            {
+                "id": "course1001_res1002",
+                "description": "Link to IMS Tool 470",
+                "title": "GIT branches",
+                "tool_id": "tool1002"
+            }
+        ]
     }
 ]

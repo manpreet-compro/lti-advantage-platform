@@ -12,12 +12,15 @@ exports.launchDefault = (req, res)=>{
 }
 
 exports.initLogin = (req, res)=>{
-    let toolId = req.query.toolId;
+    const {toolId,resLinkId} = req.query;
     if(!toolId){
-        return res.status(400).send(`Bad Request, No tool exists with id = ${toolId}`)
+        return res.status(400).send(`Bad Request, Tool Id is Required`)
+    }
+    if(!resLinkId){
+        return res.status(400).send(`Bad Request, Resource Link Id is Required`)
     }
 
-    let loginData = constructLoginParams(toolId);
+    let loginData = constructLoginParams(toolId,resLinkId);
     if(!loginData){
         return res.status(400).send(`Bad Request, No tool exists with id = ${toolId}`)
     }

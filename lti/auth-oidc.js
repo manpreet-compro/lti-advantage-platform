@@ -1,9 +1,41 @@
 const toolRegistry = require('../data/tool-registration.json');
 const platformData = require('../data/platform-data.json');
 const userData = require('../data/user-data.json');
+const courseData = require('../data/courses.json');
 
 const jwt = require('jsonwebtoken');
 const keys = require('../data/keys.json');
+
+const constructResourceLinkClaim = (messageHint)=>{
+    if(!messageHint){
+        return {}
+    }
+    let courseId = messageHint.split("_")[0];
+    let course = courseData.find(course => course.id === courseId);
+    
+    let resource = course.resource_links.find(res => res.id === messageHint);
+    return {
+        "id": resource.id,
+        "title": resource.title,
+        "description": resource.description
+    }; 
+}
+
+
+const constructContextClaim= (messageHint)=>{
+    if(!messageHint){
+        return {}
+    }
+    let courseId = messageHint.split("_")[0];
+    let course = courseData.find(course => course.id === courseId);
+
+    return {
+        "id": course.id,
+        "label": course.label,
+        "title": course.title,
+        "type": course.type
+    };
+}
 
 function handleOIDCRequest(params) {
 
@@ -101,7 +133,7 @@ function validateAuthRequest(params) {
             throw new Error('Unauthorized client_id');
         }
 
-        if (!tool.redirect_uri.includes(redirect_uri)) {
+        if (!tool.redirect_uris.includes(redirect_uri)) {
             throw new Error('Unregistered redirect_uri');
         }
 
@@ -133,19 +165,20 @@ function constructAuthResponse(params, tool) {
         prompt
     } = params;
 
+    
+    const currentTime = parseInt(Date.now()/1000); //convert ms to sec
     const expirationWindow = 60*10 //10mins
-
-    const time = parseInt(Date.now()/1000); //convert ms to sec
-    const expirationTIme = time + expirationWindow;
+    
+    const expirationTIme = currentTime + expirationWindow;
 
     // Construct JWT payload / claims
     // Ref - https://www.imsglobal.org/spec/security/v1p0/#id-token
     const payload = {
         iss: platformData.iss, //platformData.issuer;
         aud: tool.client_id,
-        iat: time,
+        iat: currentTime,
         exp: expirationTIme,
-        sub: "2",
+        sub: login_hint,
         nonce: nonce,
     };    
 
@@ -153,17 +186,15 @@ function constructAuthResponse(params, tool) {
 
     payload['https://purl.imsglobal.org/spec/lti/claim/version'] = '1.3.0';
 
-    payload['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'] = tool.tool_link; 
-
-    payload['https://purl.imsglobal.org/spec/lti/claim/resource_link'] = { //save resource_link data somehow when user clicked so that it  can be passed here
-        "id": "5949",
-        "title": "Activity01",
-        "description": "Test Activity"
-    }; 
-
+    payload['https://purl.imsglobal.org/spec/lti/claim/target_link_uri'] = tool.tool_url; 
+    
     if(tool.deployment_id){
         payload['https://purl.imsglobal.org/spec/lti/claim/deployment_id'] = tool.deployment_id; 
     }
+
+    payload["https://purl.imsglobal.org/spec/lti/claim/context"]= constructContextClaim(lti_message_hint);
+
+    payload['https://purl.imsglobal.org/spec/lti/claim/resource_link'] = constructResourceLinkClaim(lti_message_hint);
     
     //add user data
     payload["name"] = userData.name;
@@ -172,16 +203,6 @@ function constructAuthResponse(params, tool) {
     payload["middle_name"] = userData.middle_name;
     payload["email"] = userData.email;
     payload["https://purl.imsglobal.org/spec/lti/claim/roles"] = userData.roles;
-
-
-    payload["https://purl.imsglobal.org/spec/lti/claim/context"]= {
-        "id": "1697",
-        "label": "Course01",
-        "title": "Course01",
-        "type": [
-          "http://purl.imsglobal.org/vocab/lis/v2/course#CourseSection"
-        ]
-    };
 
     // Construct id_token
     // sign with RSA SHA256

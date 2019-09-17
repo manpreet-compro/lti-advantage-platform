@@ -12,14 +12,20 @@
     </head>
     <body>
         <div class="container">
-            <h1 class="heading mt-4 mb-4">LTI 1.3 Platform</h1>
-            <div class="content-area" style="display: flex;">
-                <% courses.forEach(function(course) { %>
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= course.title %></h5>
-                        <p class="card-text"><%= course.desc %></p>
-                        <a href=<%= course.resLink.href %>?toolId=<%= course.resLink.toolId %> class="btn btn-primary"><%= course.resLink.displayText %></a>
+            <h1 class="heading mt-4 mb-4 display-4">LTI 1.3 Platform</h1>
+            <div class="content-area" >
+                <% courses.forEach(function(course, index) { %>
+                <div class="course-container">
+                    <h4 class="course-title text-muted">Course <%= index+1 %>: <%= course.title %>
+                        <span class="badge badge-secondary course-label bg-info"><%= course.label %></span>
+                    </h4>
+                    <div class="res-links-container ml-4">
+                        <% course.resource_links.forEach(function(resource_link, resIndex) { %>
+                            <div class="res-link-container" style="display: flex;">
+                                <h5><span class="res-link-title"><a href=/init-login?toolId=<%= resource_link.tool_id %>&resLinkId=<%= resource_link.id %>><%= resource_link.title %></a></span></h5>
+                                <span class="res-link-desc ml-1"> - <%= resource_link.description %></span>
+                            </div>
+                        <% }); %>
                     </div>
                 </div>
                 <% }); %>
