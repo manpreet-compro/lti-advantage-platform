@@ -4,10 +4,10 @@
         "client_id":"Tool101",
         "deployment_id":"1",
         "lti_version":"1.3",
-        "tool_url":"http://localhost:5000",
-        "initiate_login_uri":"http://localhost:5000/oidc",
+        "tool_url":"https://lti-node.herokuapp.com",
+        "initiate_login_uri":"https://lti-node.herokuapp.com/oidc",
         "redirect_uris":[
-            "http://localhost:5000/project/submit"
+            "https://lti-node.herokuapp.com/project/submit"
         ]
     },
     {
