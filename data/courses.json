@@ -20,5 +20,21 @@
                 "tool_id": "tool1002"
             }
         ]
+    },
+    {
+        "id": "course1002",
+        "label": "Node101",
+        "title": "Javascript in server side",
+        "type": [
+            "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering"
+        ],
+        "resource_links":[
+            {
+                "id": "course1002_res2001",
+                "description": "Link to heroku tool developed using LTI library",
+                "title": "File System in NodeJs",
+                "tool_id": "tool1001"
+            }
+        ]
     }
 ]

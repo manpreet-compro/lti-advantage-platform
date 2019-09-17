@@ -12,10 +12,10 @@
     </head>
     <body>
         <div class="container">
-            <h1 class="heading mt-4 mb-4 display-4">LTI 1.3 Platform</h1>
+            <h1 class="heading mt-4 display-4">LTI 1.3 Platform</h1>
             <div class="content-area" >
                 <% courses.forEach(function(course, index) { %>
-                <div class="course-container">
+                <div class="course-container mt-4">
                     <h4 class="course-title text-muted">Course <%= index+1 %>: <%= course.title %>
                         <span class="badge badge-secondary course-label bg-info"><%= course.label %></span>
                     </h4>
